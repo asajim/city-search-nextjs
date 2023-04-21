@@ -54,7 +54,16 @@ export const Home = memo(() => {
           inputMode={"decimal"}
           onChange={(event) => {
             event.preventDefault();
-            setCitiesCountPerPage(parseInt(event.target.value));
+            var count = 0;
+            try {
+              count = parseInt(event.target.value);
+              if (isNaN(count)) {
+                count = 0;
+              }
+            } catch (e) {
+              console.error(e);
+            }
+            setCitiesCountPerPage(count);
           }}
         />
       </HStack>
