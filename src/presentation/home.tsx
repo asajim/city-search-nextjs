@@ -8,12 +8,14 @@ import { Cities } from "@/presentation/cities";
 export const Home = memo(() => {
   const [searchInput, setSearchInput] = useState("");
   const [cities, setCities] = useState<CityDto[]>([]);
+  const [citiesCountPerPage, setCitiesCountPerPage] = useState(30);
   const [searchInputDebounced] = useDebounce(searchInput, 500);
+  const [citiesCountPerPageDebounced] = useDebounce(citiesCountPerPage, 500);
 
   useEffect(() => {
     async function search() {
       const cities = await searchCities(searchInputDebounced.trim());
-      setCities(cities.slice(0, Math.min(100, cities.length)));
+      setCities(cities);
     }
     search();
   }, [searchInputDebounced]);
@@ -32,15 +34,35 @@ export const Home = memo(() => {
         <Image src={"./logo.png"} alt={"logo"} boxSize={"8"} />
         <Heading>City Search</Heading>
       </HStack>
-      <Input
-        placeholder={"Enter city name"}
-        value={searchInput}
-        onChange={(event) => {
-          event.preventDefault();
-          setSearchInput(event.target.value);
-        }}
+
+      <HStack w={"full"}>
+        <Input
+          flex={2}
+          placeholder={"Enter city name"}
+          value={searchInput}
+          onChange={(event) => {
+            event.preventDefault();
+            setSearchInput(event.target.value);
+          }}
+        />
+        <Input
+          flex={1}
+          placeholder={"Enter cities count per page"}
+          value={citiesCountPerPage}
+          type={"number"}
+          pattern={"[0-9]*(.[0-9]+)?"}
+          inputMode={"decimal"}
+          onChange={(event) => {
+            event.preventDefault();
+            setCitiesCountPerPage(parseInt(event.target.value));
+          }}
+        />
+      </HStack>
+
+      <Cities
+        cities={cities}
+        citiesCountPerPage={citiesCountPerPageDebounced}
       />
-      <Cities cities={cities} />
     </Flex>
   );
 });

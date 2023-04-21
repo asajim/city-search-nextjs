@@ -5,11 +5,10 @@ import React, { memo, useEffect, useState } from "react";
 
 interface Props {
   cities: CityDto[];
+  citiesCountPerPage: number;
 }
 
-const MAX_CITIES_IN_A_PAGE = 10;
-
-export const Cities = memo(({ cities }: Props) => {
+export const Cities = memo(({ cities, citiesCountPerPage }: Props) => {
   const [page, setPage] = useState(1);
 
   useEffect(() => {
@@ -25,12 +24,12 @@ export const Cities = memo(({ cities }: Props) => {
         w={"full"}
       >
         {cities
-          .slice(0, Math.min(cities.length, page * MAX_CITIES_IN_A_PAGE))
+          .slice(0, Math.min(cities.length, page * citiesCountPerPage))
           .map((value) => {
             return <City city={value} key={value._id} />;
           })}
       </SimpleGrid>
-      {page * MAX_CITIES_IN_A_PAGE < cities.length && (
+      {page * citiesCountPerPage < cities.length && (
         <Button
           onClick={(event) => {
             event.preventDefault();
