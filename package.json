@@ -1,5 +1,5 @@
 {
-  "name": "my-app",
+  "name": "nextjs-city-search",
   "version": "0.1.0",
   "private": true,
   "engines": {
@@ -11,7 +11,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "compile": "tsc"
+    "compile": "tsc",
+    "prepare": "husky install"
   },
   "dependencies": {
     "@chakra-ui/react": "^2.5.5",
@@ -32,6 +33,7 @@
     "eslint-config-next": "13.3.0",
     "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-prettier": "^4.2.1",
+    "husky": "^8.0.3",
     "prettier": "^2.8.7",
     "typescript": "5.0.4"
   }

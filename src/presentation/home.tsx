@@ -1,5 +1,5 @@
 import React, { memo, useEffect, useState } from "react";
-import { Flex, Heading, HStack, Image, Input } from "@chakra-ui/react";
+import { Flex, Heading, HStack, Image, Input, Select } from "@chakra-ui/react";
 import { useDebounce } from "use-debounce";
 import { CityDto } from "@/data/dto/city-dto";
 import { searchCities } from "@/data/request/city";
@@ -45,27 +45,22 @@ export const Home = memo(() => {
             setSearchInput(event.target.value);
           }}
         />
-        <Input
-          flex={1}
-          placeholder={"Enter cities count per page"}
+        <Select
+          placeholder={"Cities count per page"}
           value={citiesCountPerPage}
-          type={"number"}
-          pattern={"[0-9]*(.[0-9]+)?"}
-          inputMode={"decimal"}
           onChange={(event) => {
-            event.preventDefault();
-            var count = 0;
-            try {
-              count = parseInt(event.target.value);
-              if (isNaN(count)) {
-                count = 0;
-              }
-            } catch (e) {
-              console.error(e);
+            if (event.target.value) {
+              setCitiesCountPerPage(parseInt(event.target.value));
             }
-            setCitiesCountPerPage(count);
           }}
-        />
+          w={"fit-content"}
+        >
+          <option value={5}>5</option>
+          <option value={10}>10</option>
+          <option value={30}>30</option>
+          <option value={50}>50</option>
+          <option value={100}>100</option>
+        </Select>
       </HStack>
 
       <Cities
